@@ -15,7 +15,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
         video.addEventListener('timeupdate', function () {
             // Nếu video đã phát đủ 20 giây (hoặc đã lặp đủ 3 lần)
             let diff = Math.abs(video.currentTime - currentStartTime)
-            console.log(diff, "1")
+
             if (diff >= repeatInterval + 0.1 && diff <= repeatInterval + 0.5) {
                 repeatCount++;
                 if (repeatCount < repeatCountMax) {
