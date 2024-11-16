@@ -5,32 +5,36 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
             console.log("Không tìm thấy video trên trang.");
             return;
         }
+
         const repeatInterval = message.interval;
-        let currentStartTime = video.currentTime; // Thời gian bắt đầu của mỗi đoạn
+        let currentStartTime = video.currentTime;
         const repeatCountMax = message.repeatCount;
-        let repeatCount = 0; // Biến đếm số lần lặp lại trong mỗi đoạn
+        let repeatCount = 0;
 
-
-        // Lắng nghe sự kiện timeupdate để theo dõi thời gian
-        video.addEventListener('timeupdate', function () {
-            // Nếu video đã phát đủ 20 giây (hoặc đã lặp đủ 3 lần)
-            let diff = Math.abs(video.currentTime - currentStartTime)
+        // Biến lưu trữ hàm xử lý hiện tại
+        let currentHandler = function () {
+            let diff = Math.abs(video.currentTime - currentStartTime);
 
             if (diff >= repeatInterval + 0.1 && diff <= repeatInterval + 0.5) {
                 repeatCount++;
                 if (repeatCount < repeatCountMax) {
-                    // Lặp lại video từ vị trí hiện tại (bắt đầu từ currentStartTime)
                     video.currentTime = currentStartTime;
                 } else {
-                    // Nếu đã lặp đủ 3 lần, tiếp tục với đoạn tiếp theo
-                    currentStartTime += repeatInterval; // Tiến đến đoạn tiếp theo (20s -> 40s -> 60s -> ...)
+                    currentStartTime += repeatInterval;
                     repeatCount = 0;
                 }
             } else if (diff > repeatInterval + 0.5) {
                 currentStartTime = video.currentTime;
             }
-        });
+        };
 
+        // Loại bỏ hàm xử lý cũ nếu tồn tại
+        if (video._currentHandler) {
+            video.removeEventListener('timeupdate', video._currentHandler);
+        }
 
+        // Thêm hàm xử lý mới và lưu tham chiếu để có thể xóa sau này
+        video.addEventListener('timeupdate', currentHandler);
+        video._currentHandler = currentHandler; // Lưu trữ hàm xử lý trong thuộc tính `_currentHandler` của video
     }
 });
