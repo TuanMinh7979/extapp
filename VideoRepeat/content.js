@@ -2,7 +2,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     if (message.action === 'startVideoLoop') {
         const video = document.querySelector('video');
         if (!video) {
-            console.log("Không tìm thấy video trên trang.");
+            console.log("Video not found");
             return;
         }
 
@@ -11,7 +11,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
         const repeatCountMax = message.repeatCount;
         let repeatCount = 0;
 
-        // Biến lưu trữ hàm xử lý hiện tại
+      
         let currentHandler = function () {
             let diff = Math.abs(video.currentTime - currentStartTime);
 
@@ -28,13 +28,13 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
             }
         };
 
-        // Loại bỏ hàm xử lý cũ nếu tồn tại
+       
         if (video._currentHandler) {
             video.removeEventListener('timeupdate', video._currentHandler);
         }
 
-        // Thêm hàm xử lý mới và lưu tham chiếu để có thể xóa sau này
+
         video.addEventListener('timeupdate', currentHandler);
-        video._currentHandler = currentHandler; // Lưu trữ hàm xử lý trong thuộc tính `_currentHandler` của video
+        video._currentHandler = currentHandler; 
     }
 });
