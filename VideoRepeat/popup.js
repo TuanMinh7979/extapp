@@ -13,6 +13,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const interval = parseInt(document.getElementById('interval').value, 10);
     const repeatCount = parseInt(document.getElementById('repeatCount').value, 10);
+
+    if (!interval || !repeatCount) return false;
+
     chrome.storage.local.set({ interval }, function () {
 
     });
