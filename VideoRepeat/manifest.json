@@ -3,7 +3,7 @@
     "name": "Video Repeat Extension",
     "description": "Extension to repeat video segments a specified number of times.",
     "version": "1.0",
-    "permissions": ["activeTab"],
+    "permissions": ["activeTab", "storage"],
     "background": {
       "service_worker": "background.js"
     },
