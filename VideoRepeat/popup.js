@@ -5,17 +5,12 @@ document.addEventListener("DOMContentLoaded", function () {
   chrome.storage.local.get(['interval'], function (result) {
     if (result) {
       document.getElementById('interval').value = result.interval
-    } else {
-      document.getElementById('interval').value = 5
     }
 
   });
   chrome.storage.local.get(['repeatCount'], function (result) {
     if (result) {
-
       document.getElementById('repeatCount').value = result.repeatCount
-    } else {
-      document.getElementById('repeatCount').value = 3
     }
 
   });
