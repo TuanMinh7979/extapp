@@ -3,14 +3,16 @@
 document.addEventListener("DOMContentLoaded", function () {
 
   chrome.storage.local.get(['interval'], function (result) {
-    if (result) {
-      document.getElementById('interval').value = result.interval
+    let intervalElement = document.getElementById('interval')
+    if (result.interval && intervalElement) {
+      intervalElement.value = result.interval
     }
 
   });
   chrome.storage.local.get(['repeatCount'], function (result) {
-    if (result) {
-      document.getElementById('repeatCount').value = result.repeatCount
+    let repeatCntElement = document.getElementById('repeatCount')
+    if (result.repeatCount && repeatCntElement) {
+      repeatCntElement.value = result.repeatCount
     }
 
   });
