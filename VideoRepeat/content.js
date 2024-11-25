@@ -48,4 +48,22 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 
         sendResponse({ success: true });
     }
+
+
+
+
+    if (message.action === 'stopVideoLoop') {
+        const video = document.querySelector('video');
+        if (!video) {
+            console.error("Video element not found");
+            sendResponse({ success: false, error: "Video element not found" });
+            return;
+        }
+
+        // Remove existing handler if present
+        if (video._currentHandler) {
+            video.removeEventListener('timeupdate', video._currentHandler);
+        }
+        sendResponse({ success: true });
+    }
 });
